@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-left">
+            <img src="./img/profile 2.png" class="profile-icon" />
+          <span class="username">Username</span>
+        </div>
+        <button class="logout-btn">Logout</button>
+      </div>
+      <div class="app">
+        <!-- Header -->
+        <header class="header">
+          <h1>Notes App</h1>
+          <button class="add-note">Add New Note</button>
+        </header>
+    
+        <!-- Notes Section -->
+        <main class="notes-container">
+          <!-- Notes will be dynamically added here -->
+          <p class="no-notes">No notes yet. Click "Add New Note" to create one!</p>
+        </main>
+    
+        <!-- Add Note Modal -->
+        <div class="modal hidden">
+          <div class="modal-content">
+            <h2>Add New Note</h2>
+            <form id="noteForm">
+              <label for="title">Title:</label>
+              <input type="text" id="title" name="title" required>
+              
+              <label for="content">Content:</label>
+              <textarea id="content" name="content" rows="5" required></textarea>
+              
+              <div class="modal-actions">
+                <button type="submit" class="save-note">Save Note</button>
+                <button type="button" class="close-modal">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+      <script src="app.js"></script>
+    </body>
+    </html>
