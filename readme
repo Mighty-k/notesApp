@@ -1,0 +1,6 @@
+open this folder in vs code
+run:
+cd backend
+in the terminal
+run: npm install 
+then run: nodemon server.js
