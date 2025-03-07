@@ -34,7 +34,8 @@ app.use('/api/notes', notesRoutes);
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  ssl: true,  // Enabling SSL for secure connection
+  ssl: true, 
+  serverSelectionTimeoutMS: 5000 // Enabling SSL for secure connection
 })
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => console.error('Database connection error:', err));
