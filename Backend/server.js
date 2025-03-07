@@ -9,10 +9,15 @@ const authRoutes = require('./routes/auth');
 const notesRoutes = require('./routes/notes');
 
 const corsOptions = {
-  origin: ['https://notes-app-27g5.vercel.app', 'https://notes-app-wheat-nu.vercel.app'],
+  origin: [
+    'https://notes-app-27g5.vercel.app',
+    'https://notes-app-wheat-nu.vercel.app',
+    'https://notes-lazydev.vercel.app', // Add this line
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
 
 
 const app = express()
