@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
 // Handle Login
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
@@ -253,3 +254,4 @@ if (window.location.pathname.includes('notes.html')) {
 }
 
 console.log('hi');
+});
