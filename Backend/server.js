@@ -31,7 +31,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/notes', notesRoutes);
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  ssl: true,  // Enabling SSL for secure connection
+})
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => console.error('Database connection error:', err));
 
