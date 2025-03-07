@@ -14,7 +14,7 @@ if (loginForm) {
       });
 
       const data = await response.json();
-      console.log('yo mama')
+      // console.log('yo mama')
       if (response.ok) {
         console.log(data)
         localStorage.setItem('jwt', data.token);
