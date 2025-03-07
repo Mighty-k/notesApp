@@ -231,7 +231,7 @@ function editNoteHandler(note) {
 // Delete Note Handler
 async function deleteNoteHandler(noteId) {
   try {
-    const response = await fetch(`http://localhost:5000/api/notes/${noteId}`, {
+    const response = await fetch(`https://notes-app-wheat-nu.vercel.app/api/notes/${noteId}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });
