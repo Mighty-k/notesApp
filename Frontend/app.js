@@ -7,7 +7,7 @@ if (loginForm) {
     const password = document.getElementById('password').value.trim();
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('https://notes-app-wheat-nu.vercel.app/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -41,7 +41,7 @@ if (signupForm) {
     const password = document.getElementById('password').value.trim();
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
+      const response = await fetch('https://notes-app-wheat-nu.vercel.app/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
@@ -109,7 +109,7 @@ let editingNote = null;
 // Fetch Notes
 async function fetchNotes() {
   try {
-    const response = await fetch('http://localhost:5000/api/notes', {
+    const response = await fetch('https://notes-app-wheat-nu.vercel.app/api/notes', {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -180,7 +180,7 @@ noteForm.addEventListener('submit', async (e) => {
 
   try {
     if (isEditing) {
-      const response = await fetch(`http://localhost:5000/api/notes/${editingNote._id}`, {
+      const response = await fetch(`https://notes-app-wheat-nu.vercel.app/api/notes/${editingNote._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -195,7 +195,7 @@ noteForm.addEventListener('submit', async (e) => {
         alert('Failed to update note.');
       }
     } else {
-      const response = await fetch('http://localhost:5000/api/notes', {
+      const response = await fetch('https://notes-app-wheat-nu.vercel.app/api/notes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
