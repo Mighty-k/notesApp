@@ -8,6 +8,13 @@ const bodyparser = require('body-parser')
 const authRoutes = require('./routes/auth');
 const notesRoutes = require('./routes/notes');
 
+const corsOptions = {
+  origin: ['https://notes-app-27g5.vercel.app', 'https://notes-app-wheat-nu.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+
 const app = express()
 // const PORT = process.env.PORT || 5000;
 
@@ -16,7 +23,7 @@ app.get('/', (req,res)=>{
 });
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyparser.json());
 
 // Routes
