@@ -321,6 +321,8 @@ document.getElementById("confirm-delete").addEventListener("click", async functi
   noteToDelete = null; // Reset stored ID
 });
 
+noteCard.querySelector('.delete-icon').addEventListener('touchend', () => deleteNoteHandler(note._id));
+
 
 
 // Fetch Notes on Load
