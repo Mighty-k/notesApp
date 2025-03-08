@@ -190,7 +190,7 @@ function renderNotes(notes) {
           </i>
           </button>
         </div>
-        <footer class="absolute pl-10 bottom-1 right-5">${new Date(note.date).toLocaleString()}</footer>
+        <footer class="absolute w-1/2 bottom-1 right-5">${new Date(note.date).toLocaleString()}</footer>
       `;
       noteCard.querySelector('#edit-icon').addEventListener('click', () => editNoteHandler(note));
       noteCard.querySelector('#delete-icon').addEventListener('click', () => deleteNoteHandler(note._id));

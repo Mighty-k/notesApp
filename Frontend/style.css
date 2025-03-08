@@ -185,9 +185,9 @@
   
   
   .note-card footer {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     font-size: 0.8em;
-    color: #ececec;
+    color: #1a1818;
     text-align: right;
   }
   
