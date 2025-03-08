@@ -178,13 +178,13 @@ function renderNotes(notes) {
         <h3>${note.title}</h3>
         <p>${truncateText(note.content, 100)}</p>
         <div class="note-actions">
-          <button class="rounded-full p-2 bg-yellow-200  absolute top-2 right-2 bg-green-100 hover:bg-green-200 transition-all">
+          <button id="edit-icon" class="rounded-full p-2 bg-yellow-200  absolute top-2 right-2 bg-green-100 hover:bg-green-200 transition-all">
           <i class="edit-icon ">
            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
           
           </i>
           </button>
-          <button class="p-2 rounded-full absolute bottom-2 left-2 bg-yellow-100 hover:bg-yellow-200 transition-all">
+          <button id="delete-icon" class="p-2 rounded-full absolute bottom-2 left-2 bg-yellow-100 hover:bg-yellow-200 transition-all">
           <i class="delete-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
           </i>
@@ -192,9 +192,9 @@ function renderNotes(notes) {
         </div>
         <footer class="absolute pl-10 bottom-1 right-5">${new Date(note.date).toLocaleString()}</footer>
       `;
-      noteCard.querySelector('.edit-icon').addEventListener('click', () => editNoteHandler(note));
-      noteCard.querySelector('.delete-icon').addEventListener('click', () => deleteNoteHandler(note._id));
-      noteCard.querySelector('.delete-icon').addEventListener('touchend', () => deleteNoteHandler(note._id));
+      noteCard.querySelector('#edit-icon').addEventListener('click', () => editNoteHandler(note));
+      noteCard.querySelector('#delete-icon').addEventListener('click', () => deleteNoteHandler(note._id));
+      noteCard.querySelector('#delete-icon').addEventListener('touchend', () => deleteNoteHandler(note._id));
       notesContainer.appendChild(noteCard);
     });
   }
