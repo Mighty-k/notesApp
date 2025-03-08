@@ -194,6 +194,7 @@ function renderNotes(notes) {
       `;
       noteCard.querySelector('.edit-icon').addEventListener('click', () => editNoteHandler(note));
       noteCard.querySelector('.delete-icon').addEventListener('click', () => deleteNoteHandler(note._id));
+      noteCard.querySelector('.delete-icon').addEventListener('touchend', () => deleteNoteHandler(note._id));
       notesContainer.appendChild(noteCard);
     });
   }
@@ -321,7 +322,7 @@ document.getElementById("confirm-delete").addEventListener("click", async functi
   noteToDelete = null; // Reset stored ID
 });
 
-noteCard.querySelector('.delete-icon').addEventListener('touchend', () => deleteNoteHandler(note._id));
+
 
 
 
