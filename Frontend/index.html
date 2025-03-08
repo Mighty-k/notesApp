@@ -10,11 +10,12 @@
   <div class="login-container">
     <h1>Login</h1>
     <form id="loginForm">
+      <p id="error-message" style="color: red; display: none; text-align: center; margin-top: 10px;"></p>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        <button type="submit">Login</button>
+        <button type="submit" class="authbutton">Login</button>
       </form>
       <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
   </div>
