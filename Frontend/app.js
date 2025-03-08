@@ -139,8 +139,9 @@ let isEditing = false;
 let editingNote = null;
 
 // Fetch Notes
+loadingIndicator.classList.remove("hidden"); 
 async function fetchNotes() {
-  loadingIndicator.classList.remove("hidden"); 
+  
   try {
     const response = await fetch('https://notes-app-wheat-nu.vercel.app/api/notes', {
       method: 'GET',
