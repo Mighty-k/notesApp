@@ -10,10 +10,11 @@ const notesRoutes = require('./routes/notes');
 
 const corsOptions = {
   origin: [
+    'http://localhost:5500',
     'https://notes-app-27g5.vercel.app',
     'https://notes-app-wheat-nu.vercel.app',
     'https://notes-lazydev.vercel.app', 
-    'http://127.0.0.1:5500/',
+    
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
