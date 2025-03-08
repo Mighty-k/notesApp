@@ -165,9 +165,9 @@ function renderNotes(notes) {
   // Clear only the note cards, not the entire container
   const noteCards = notesContainer.querySelectorAll('.note-card');
   noteCards.forEach(card => card.remove());
-
+  loadingIndicator.classList.add("hidden");
   if (!notes || notes.length === 0) {
-    loadingIndicator.classList.add("hidden");
+   
     noNotesText.style.display = 'block'; // Show "no notes" message
   } else {
     noNotesText.style.display = 'none'; // Hide "no notes" message
@@ -190,7 +190,7 @@ function renderNotes(notes) {
           </i>
           </button>
         </div>
-        <footer class="absolute bottom-2 right-3">${new Date(note.date).toLocaleString()}</footer>
+        <footer class="absolute pl-10 bottom-1 right-5">${new Date(note.date).toLocaleString()}</footer>
       `;
       noteCard.querySelector('.edit-icon').addEventListener('click', () => editNoteHandler(note));
       noteCard.querySelector('.delete-icon').addEventListener('click', () => deleteNoteHandler(note._id));
@@ -268,7 +268,7 @@ noteForm.addEventListener('submit', async (e) => {
 function showSuccessMessage(message) {
   const successMsg = document.createElement("div");
   successMsg.textContent = message;
-  successMsg.className = "fixed top-4 left-[60%] transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded shadow";
+  successMsg.className = "fixed top-6 sm:left[20%] lg:left-[50%] bg-green-500 text-white px-4 py-2 rounded shadow";
   
   document.body.appendChild(successMsg);
   setTimeout(() => successMsg.remove(), 2000);
