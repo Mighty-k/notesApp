@@ -196,9 +196,9 @@
     color: #1a1818;
     text-align: right;
   }
-  input#title:focus, textarea#content:focus,input#noteTitle:focus, textarea#noteContent:focus  {
-    outline: none;
-    border: none;
+  input#title:focus, textarea#content:focus,input#noteTitle:focus, textarea#noteContent:focus, button:active  {
+    outline: none !important;
+    border: none !important;
   }
   
   
@@ -213,6 +213,10 @@
     display: none;
   }
   
+  #close-x{
+    padding-left: 23rem;
+    height: 1px;
+  }
   
   
   .modal-content h2 {
@@ -252,11 +256,11 @@
   }
   
   .close-modal {
-    padding: 10px 20px;
+    /* padding: 10px 20px;
     background-color: #444;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: pointer; */
   }
   
   .close-modal:hover {
@@ -310,6 +314,11 @@
   @media (min-width: 1024px) {
     .login-container{
       width: 40rem;
+    }
+    #close-x{
+      padding-left: 60rem;
+      height: 1px;
+      position: absolute;
     }
   }
   @media (min-width: 768px) {
