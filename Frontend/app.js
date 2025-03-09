@@ -27,7 +27,8 @@ if (loginForm) {
         
         window.location.href = 'notes.html';
       } else {
-        alert(data.message || 'Login failed.');
+        // alert(data.message || 'Login failed.');
+        showErrorMessage(data.message)
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -122,11 +123,14 @@ if (logoutButton) {
 // Notes Functionality
 const addNoteButton = document.querySelector('#add-note');
 const modal = document.querySelector('#modal');
+const viewNote = document.querySelector('#view-note');
 const closeModalButton = document.querySelector('#close-modal');
+const closeNote = document.querySelector('#close-note');
 const noteForm = document.querySelector('#noteForm');
 const notesContainer = document.querySelector('#notes-container');
 const noNotesText = document.querySelector('#no-notes');
 const loadingIndicator = document.getElementById("loading");
+const editForm = document.getElementById('editNoteForm')
 
 const date = new Date().toLocaleString()
 
@@ -174,26 +178,30 @@ function renderNotes(notes) {
     noNotesText.style.display = 'none'; // Hide "no notes" message
     notes.forEach((note) => {
       const noteCard = document.createElement('div');
-      noteCard.classList.add('note-card','text-lg','lg:text-2xl', "relative", 'lg:h-72', 'h-52', 'shadow-xl');
+      noteCard.classList.add('note-card','text-lg','lg:text-2xl', "relative", 'lg:h-72', 'h-52', 'shadow-xl','p-3', 'lg:p-6','cursor-pointer');
+      noteCard.dataset.title = note.title;  
+      noteCard.dataset.content = note.content;
+      noteCard.dataset.id = note._id;  
       noteCard.innerHTML = `
         <h3>${note.title}</h3>
-        <p>${truncateText(note.content, 100)}</p>
+        <p class ="font-normal">${truncateText(note.content, 100)}</p>
         <div class="note-actions">
-          <button id="edit-icon" class="rounded-full p-2 bg-yellow-200  absolute top-2 right-2 bg-green-100 hover:bg-green-200 transition-all">
-          <i class="edit-icon ">
-           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
-          
-          </i>
-          </button>
-          <button id="delete-icon" class="p-2 rounded-full absolute bottom-2 left-2 bg-yellow-100 hover:bg-yellow-200 transition-all">
+          <button id="delete-icon" class="p-2 rounded-full absolute bottom-2 left-3 bg-yellow-100 hover:bg-yellow-200 transition-all">
           <i class="delete-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
           </i>
           </button>
         </div>
-        <footer class="absolute w-1/2 bottom-1 right-5">${new Date(note.date).toLocaleString()}</footer>
+        <footer class="absolute w-1/2 bottom-3 right-5 text-sm">${new Date(note.date).toLocaleDateString()}</footer>
       `;
-      noteCard.querySelector('#edit-icon').addEventListener('click', () => editNoteHandler(note));
+      noteCard.addEventListener('click', (event) => {
+        if (event.target.closest('#delete-icon')) {
+          deleteNoteHandler(note._id);
+        } else {
+          console.log(note);
+          editNoteHandler(note);
+        }
+      });
       noteCard.querySelector('#delete-icon').addEventListener('click', () => deleteNoteHandler(note._id));
       noteCard.querySelector('#delete-icon').addEventListener('touchend', () => deleteNoteHandler(note._id));
       notesContainer.appendChild(noteCard);
@@ -215,35 +223,28 @@ closeModalButton?.addEventListener('click', () => {
   isEditing = false;
 });
 
+
 // Handle Add or Edit Note
 noteForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const title = document.querySelector('#title').value.trim();
-  const content = document.querySelector('#content').value.trim();
-
-  if (!title || !content) {
-    alert('Both title and content are required!');
-    return;
+  let title = document.querySelector('#title').value.trim().toUpperCase();
+  let content = document.querySelector('#content').value.trim();
+  if (!title && !content) {
+    modal.classList.add('hidden');
+    noteForm.reset();
+    isEditing = false;
   }
-
-
+  else if (!title) {
+    title = '#NEW NOTE' 
+  }
+  else if (!content) {
+    content = ' ' 
+  }
+  
   try {
-    if (isEditing) {
-      const response = await fetch(`https://notes-app-wheat-nu.vercel.app/api/notes/${editingNote._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ title, content, date }),
-      });
-
-      if (response.ok) {
-        alert('Note updated successfully!');
-      } else {
-        alert('Failed to update note.');
-      }
-    } else {
+    // if (isEditing) {
+      
+    // } else {
       const response = await fetch('https://notes-app-wheat-nu.vercel.app/api/notes', {
         method: 'POST',
         headers: {
@@ -254,11 +255,12 @@ noteForm.addEventListener('submit', async (e) => {
       });
 
       if (response.ok) {
-        showSuccessMessage("Note added successfully!");
+        showSuccessMessage("Note Created!");
       } else {
-        alert('Failed to add note.');
+        // alert('Failed to add note.');
+        showErrorMessage('Failed to add note.')
       }
-    }
+    // }
     fetchNotes();
   } catch (error) {
     console.error('Error saving note:', error);
@@ -267,21 +269,58 @@ noteForm.addEventListener('submit', async (e) => {
   modal.classList.add('hidden');
   noteForm.reset();
 });
-function showSuccessMessage(message) {
-  const successMsg = document.createElement("div");
-  successMsg.textContent = message;
-  successMsg.className = "fixed top-6 sm:left[20%] lg:left-[50%] bg-green-500 text-white px-4 py-2 rounded shadow";
-  
-  document.body.appendChild(successMsg);
-  setTimeout(() => successMsg.remove(), 2000);
+editForm.addEventListener('submit',async (e) => {
+  e.preventDefault();
+  let title = document.querySelector('#noteTitle').value.trim().toUpperCase();
+  let content = document.querySelector('#noteContent').value.trim();
+  if (!title && !content) {
+    viewNote.classList.add('hidden');
+    noteForm.reset();
+    isEditing = false;
+  }
+  else if (!title ) {
+    showErrorMessage('Please add a title')
+    return
+  }
+  if (title === editingNote.title && content === editingNote.content) {
+    viewNote.classList.add('hidden'); 
+    editForm.reset(); 
+    isEditing = false;
+    return;  // Exit early since nothing changed
+  }
+  try{
+    const response = await fetch(`https://notes-app-wheat-nu.vercel.app/api/notes/${editingNote._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title, content, date }),
+    });
+
+    if (response.ok) {
+      showSuccessMessage("Note Saved!");
+    } else {
+      // alert('Failed to update note.');
+      showErrorMessage('Failed to update note.')
+    }
+    fetchNotes();
+  }
+  catch (error) {
+    console.error('Error saving note:', error);
+  }
+  viewNote.classList.add('hidden');
+  editForm.reset();
 }
+)
+
 // Edit Note Handler
 function editNoteHandler(note) {
   isEditing = true;
   editingNote = note;
-  document.querySelector('#title').value = note.title;
-  document.querySelector('#content').value = note.content;
-  modal.classList.remove('hidden');
+  document.querySelector('#noteTitle').value = note.title;
+  document.querySelector('#noteContent').value = note.content;
+  viewNote.classList.remove('hidden');
 }
 
 // Delete Note Handler
@@ -309,10 +348,11 @@ document.getElementById("confirm-delete").addEventListener("click", async functi
       });
 
       if (response.ok) {
-          alert("Note deleted successfully!");
+        showSuccessMessage("Note deleted!")
           fetchNotes(); // Refresh notes
       } else {
-          alert("Failed to delete note.");
+          // alert(");
+          showErrorMessage("Unable to delete note.")
       }
   } catch (error) {
       console.error("Error deleting note:", error);
@@ -321,8 +361,98 @@ document.getElementById("confirm-delete").addEventListener("click", async functi
   // Close the modal
   document.getElementById("confirm-delete-modal").classList.add("hidden");
   noteToDelete = null; // Reset stored ID
-});
+}); 
 
+//view notes
+
+
+// Select elements
+// const viewNote = document.getElementById('view-note');
+// const noteTitle = document.getElementById('note-title');
+// const noteContent = document.getElementById('note-content');
+// const closeNoteBtn = document.getElementById('close-note');
+
+
+// let currentNoteCard = null; 
+
+// // Open modal when clicking a note
+// document.addEventListener('click', function (event) {
+
+//   const editButton = event.target.closest('.edit-icon');
+//   const deleteButton = event.target.closest('.delete-icon');
+  
+//   if (editButton) {
+//     event.stopPropagation(); // Prevent triggering parent events
+//     editNoteHandler(currentNoteCard.dataset.id);
+//     return;
+//   }
+
+//   if (deleteButton) {
+//     event.stopPropagation(); // Prevent triggering parent events
+//     deleteNoteHandler(currentNoteCard.dataset.id);
+//     viewNote.classList.add('hidden'); // Close modal after deleting
+//     return;
+//   }
+
+//   const noteCard = event.target.closest('.note-card');
+//   if (noteCard) {
+//     currentNoteCard = {
+//       title:noteCard.dataset.title,
+//       content:noteCard.dataset.content,
+//       id:noteCard.dataset.id,
+//     } // Store reference to the note
+//     noteTitle.textContent = noteCard.dataset.title || "Untitled";
+//     noteContent.innerHTML = (noteCard.dataset.content || "No content available.").replace(/\n/g, '<br>');
+//     viewNote.classList.remove('hidden'); // Show modal
+
+//     // Remove previous event listeners to prevent duplication
+//     const editBtn = viewNote.querySelector('#edit-icon');
+//     const deleteBtn = viewNote.querySelector('#delete-icon');
+
+//     editBtn.replaceWith(editBtn.cloneNode(true));
+//     deleteBtn.replaceWith(deleteBtn.cloneNode(true));
+
+//     // Re-add event listeners
+//     viewNote.querySelector('#edit-icon').addEventListener('click', () => {
+//       editNoteHandler(currentNoteCard);
+//     });
+
+//     viewNote.querySelector('#delete-icon').addEventListener('click', () => {
+//       deleteNoteHandler(currentNoteCard.id);
+//       viewNote.classList.add('hidden'); // Close modal after deleting
+//     });
+//   }
+// });
+
+
+// // Close modal when clicking "Close"
+// closeNoteBtn.addEventListener('click', () => {
+//   viewNote.classList.add('hidden');
+// });
+
+// // Close modal when clicking outside modal content
+// viewNote.addEventListener('click', (e) => {
+//   if (e.target === viewNote) {
+//     viewNote.classList.add('hidden');
+//   }
+// });
+
+
+function showErrorMessage(message) {
+  const errorMsg = document.createElement("div");
+  errorMsg.textContent = message;
+  errorMsg.className = "fixed top-6 left-[50%] translate-x-[-50%] bg-red-500 text-white px-4 py-2 rounded shadow z-20";
+  document.body.appendChild(errorMsg);
+  setTimeout(() => errorMsg.remove(), 3000);
+}
+function showSuccessMessage(message) {
+  const successMsg = document.createElement("div");
+  successMsg.textContent = message;
+  successMsg.className = "fixed top-6 sm:left[20%] lg:left-[50%] bg-green-500 text-white px-4 py-2 rounded shadow z-20";
+  
+  document.body.appendChild(successMsg);
+  setTimeout(() => successMsg.remove(), 2000);
+}
 
 
 

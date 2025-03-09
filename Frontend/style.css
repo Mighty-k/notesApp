@@ -45,13 +45,13 @@
     border-radius:5px;
   }
   
-  button {
+  /* button {
     padding: 10px;
     background: #007bff;
     color: white;
     border: none;
     cursor: pointer;
-  }
+  } */
 
   
   .login-container{
@@ -163,10 +163,16 @@
   /* Note Card */
   .note-card {
     background-color:rgb(224, 192, 136);
-    padding: 25px;
     border-radius: 10px;
     color:black;
     font-weight: 600;
+  }
+  .note-card:hover{
+    background-color:rgb(215, 173, 101);
+  }
+  .note-card:active{
+    background-color:rgb(220, 164, 68);
+    border: 0.5px solid rgb(215, 176, 17);
   }
   
   .note-card h3 {
@@ -186,15 +192,21 @@
   
   .note-card footer {
     /* margin-top: 10px; */
-    font-size: 0.8em;
+    /* font-size: 0.8em; */
     color: #1a1818;
     text-align: right;
   }
+  input#title:focus, textarea#content:focus,input#noteTitle:focus, textarea#noteContent:focus  {
+    outline: none;
+    border: none;
+  }
   
   
-  #modal{
+  
+  #modal, #view-note{
     background-color: rgba(227, 233, 230, 0.709);
   }
+  .hidden { display: none; }
 
   
   .modal.hidden {
@@ -204,7 +216,7 @@
   
   
   .modal-content h2 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   .modal-content label {
